@@ -2,7 +2,7 @@
   "instance_id": "HOST_NAME",
   "service_conf_dir": "conf/services",
   "services": {
-    "http_service": {
+    "http": {
       "host": "HOST_NAME",
       "port": 80,
       "reporter_type": "zookeeper",
@@ -19,7 +19,7 @@
         }
       ]
     },
-    "your_ssh_service": {
+    "ssh": {
       "host": "HOST_NAME",
       "port": 22,
       "reporter_type": "zookeeper",
@@ -35,6 +35,5 @@
         }
       ]
     },
-    }
   }
 }
