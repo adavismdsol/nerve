@@ -3,5 +3,11 @@
 HOST_NAME=`ec2metadata --public-hostname`
 ZK_SERVER="ec2-204-236-222-123.compute-1.amazonaws.com"
 
-sed -i "s/HOST_NAME/$HOST_NAME/g" conf/*
-sed -i "s/ZK_SERVER/$ZK_SERVER/g" conf/*
+sed -i "s/HOST_NAME/$HOST_NAME/g" conf/nerve.conf.json
+sed -i "s/ZK_SERVER/$ZK_SERVER/g" conf/nerve.conf.json
+
+sed -i "s/HOST_NAME/$HOST_NAME/g" conf/services/*
+sed -i "s/ZK_SERVER/$ZK_SERVER/g" conf/services/*
+
+
+
