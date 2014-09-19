@@ -1,0 +1,88 @@
+#!/bin/sh
+
+NERVE_HOME="/mnt/nerve"
+NERVE_CONF="/mnt/nerve/conf"
+NERVE_LOG="/mnt/nerve/log"
+GEM_PATH=`bundle show nerve`
+NERVE_DAEMON="$GEM_PATH/bin/nerve"
+NERVE_DAEMON_ARGS="-c $NERVE_CONF/nerve.conf.json"
+NERVE_LOGFILE="$NERVE_LOG/daemon.log"
+NERVE_PIDFILE="$NERVE_HOME/log/nerve.pid"
+RUNAS="nerve"
+
+#
+# Function that starts the daemon/service
+#
+do_start()
+{
+	# Return
+	#   0 if daemon has been started
+	#   1 if daemon was already running
+	#   2 if daemon could not be started
+	start-stop-daemon --start --pidfile $NERVE_PIDFILE --make-pidfile --chdir /mnt/nerve --background --startas $NERVE_DAEMON -- $NERVE_DAEMON_ARGS --test > /dev/null \
+		|| return 1
+
+	start-stop-daemon --start --pidfile $NERVE_PIDFILE --make-pidfile --chdir /mnt/nerve --background --startas $NERVE_DAEMON -- $NERVE_DAEMON_ARGS > $NERVE_LOGFILE 2>&1  \
+		|| return 2
+
+}
+
+#
+# Function that stops the daemon/service
+#
+do_stop()
+{
+	# Return
+	#   0 if daemon has been stopped
+	#   1 if daemon was already stopped
+	#   2 if daemon could not be stopped
+	#   other if a failure occurred
+	start-stop-daemon --stop --retry=TERM/30/KILL/5 --pidfile $NERVE_PIDFILE --startas $NERVE_DAEMON
+	RETVAL="$?"
+	[ "$RETVAL" = 2 ] && return 2
+	# Many daemons don't delete their pidfiles when they exit.
+	rm -f $NERVE_PIDFILE
+	return "$RETVAL"
+}
+
+case "$1" in
+  start)
+	echo  "Starting $RUNAS"
+	do_start
+	;;
+  stop)
+	echo "Stopping $RUNAS"
+	do_stop
+	;;
+  status)
+	status_of_proc -p "$NERVE_PIDFILE" "$NERVE_DAEMON" "$NERVE_NAME" && exit 0 || exit $?
+	;;
+  restart|force-reload)
+	#
+	# If the "reload" option is implemented then remove the
+	# 'force-reload' alias
+	#
+	echo "Restarting $NERVE_NAME"
+	do_stop
+	case "$?" in
+	  0|1)
+		do_start
+		case "$?" in
+			0) log_end_msg 0 ;;
+			1) log_end_msg 1 ;; # Old process is still running
+			*) log_end_msg 1 ;; # Failed to start
+		esac
+		;;
+	  *)
+		# Failed to stop
+		log_end_msg 1
+		;;
+	esac
+	;;
+  *)
+	echo "Usage: $SCRIPTNAME {start|stop|status|restart|force-reload}" >&2
+	exit 3
+	;;
+esac
+
+:
