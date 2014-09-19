@@ -1,9 +1,9 @@
 {
-  "host": "1.2.3.4",
+  "host": "HOST_NAME",
   "port": 3000,
   "reporter_type": "zookeeper",
-  "zk_hosts": ["localhost:2181"],
-  "zk_path": "/nerve/services/your_http_service/services",
+  "zk_hosts": ["ZK_SERVER:2181"],
+  "zk_path": "/nerve/services/web",
   "check_interval": 2,
   "checks": [
     {

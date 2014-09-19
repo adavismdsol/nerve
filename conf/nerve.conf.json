@@ -1,13 +1,13 @@
 {
-  "instance_id": "mymachine",
+  "instance_id": "HOST_NAME",
   "service_conf_dir": "conf/services",
   "services": {
-    "your_http_service": {
-      "host": "127.0.0.1",
+    "http_service": {
+      "host": "HOST_NAME",
       "port": 80,
       "reporter_type": "zookeeper",
-      "zk_hosts": ["localhost:2181"],
-      "zk_path": "/nerve/services/your_http_service/services",
+      "zk_hosts": ["ZK_SERVER:2181"],
+      "zk_path": "/nerve/services/http",
       "check_interval": 2,
       "checks": [
         {
@@ -20,11 +20,11 @@
       ]
     },
     "your_ssh_service": {
-      "host": "127.0.0.1",
+      "host": "HOST_NAME",
       "port": 22,
       "reporter_type": "zookeeper",
-      "zk_hosts": ["localhost:2181"],
-      "zk_path": "/nerve/services/your_ssh_service/services",
+      "zk_hosts": ["ZK_SERVER:2181"],
+      "zk_path": "/nerve/services/ssh",
       "check_interval": 2,
       "checks": [
         {
@@ -35,20 +35,6 @@
         }
       ]
     },
-    "rabbitmq_service": {
-      "host": "1.2.3.4",
-      "port": 5672,
-      "reporter_type": "zookeeper",
-      "zk_hosts": ["localhost:2181"],
-      "zk_path": "/nerve/services/your_rabbitmq_service/services",
-      "check_interval": 2,
-      "checks": [
-        {
-          "type": "rabbitmq",
-          "username": "guest",
-          "password": "guest"
-        }
-      ]
     }
   }
 }
