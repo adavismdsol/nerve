@@ -6,7 +6,6 @@ BUNDLE_BIN=$(GEM_BIN_PATH)/bundle
 all:
 
 install:
-	gem install bundler
 	bundle install --deployment --without development test performance --path /mnt/nerve/bundle
 
 clean:
