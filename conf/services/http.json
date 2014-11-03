@@ -1,0 +1,18 @@
+    {
+      "host": "HOST_NAME",
+      "port": 80,
+      "reporter_type": "zookeeper",
+      "zk_hosts": ["ZK_SERVER:2181"],
+      "zk_path": "/nerve/services/http",
+      "check_interval": 2,
+      "checks": [
+        {
+          "type": "http",
+          "uri": "/app_status",
+          "timeout": 0.2,
+          "rise": 3,
+          "fall": 2
+        }
+      ]
+    }
+
