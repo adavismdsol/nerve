@@ -7,6 +7,7 @@ all:
 
 install:
 	bundle install --deployment --without development test performance --path /mnt/nerve/bundle
+	cd /mnt/nerve; ./configClient
 
 clean:
 
